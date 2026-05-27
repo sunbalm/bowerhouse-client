@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>BowerHouse Offline</title>
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at top, #154734, #061c14 58%);
+        color: #f6f0df;
+        font-family:
+          Inter,
+          system-ui,
+          sans-serif;
+        padding: 2rem;
+      }
+
+      .offline-card {
+        width: min(100%, 28rem);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 1.5rem;
+        background: rgba(0, 0, 0, 0.28);
+        padding: 2rem;
+        text-align: center;
+        backdrop-filter: blur(12px);
+      }
+
+      h1 {
+        margin-top: 0;
+        color: #fff0a6;
+      }
+
+      p {
+        line-height: 1.6;
+        color: rgba(246, 240, 223, 0.82);
+      }
+
+      button {
+        margin-top: 1rem;
+        border: none;
+        border-radius: 999px;
+        background: #d4af37;
+        color: #061c14;
+        padding: 0.9rem 1.4rem;
+        font-weight: 900;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="offline-card">
+      <h1>BowerHouse</h1>
+
+      <p>
+        You appear to be offline. Reconnect to continue your euchre game.
+      </p>
+
+      <button onclick="window.location.reload()">
+        Try Again
+      </button>
+    </div>
+  </body>
+</html>

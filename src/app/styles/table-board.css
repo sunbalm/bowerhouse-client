@@ -1,0 +1,223 @@
+.table-board {
+  position: relative;
+  display: grid;
+  min-height: 39rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.14);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at center, rgba(32, 116, 77, 0.56), rgba(3, 24, 16, 0.86) 72%),
+    rgba(6, 28, 20, 0.92);
+  padding: 1rem;
+}
+
+.center-felt {
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  width: min(100%, 25rem);
+  gap: 0.9rem;
+  margin: 7.2rem 0 10.2rem;
+}
+
+.table-player {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 0.14rem;
+  width: min(8.5rem, calc(50% - 1rem));
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 0.75rem;
+  background: rgba(0, 0, 0, 0.36);
+  padding: 0.42rem 0.5rem 0.48rem;
+  text-align: center;
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.22);
+}
+
+.table-player strong,
+.table-player small,
+.player-badges span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table-player strong {
+  color: #fff8e7;
+  font-size: 0.78rem;
+}
+
+.table-player small {
+  color: rgba(246, 240, 223, 0.62);
+  font-size: 0.75rem;
+}
+
+.player-card-stack {
+  display: flex;
+  justify-self: center;
+  margin-top: 0.2rem;
+  pointer-events: none;
+}
+
+.player-card-stack span {
+  display: block;
+  width: 0.92rem;
+  height: 1.34rem;
+  margin-left: -0.34rem;
+  border: 1px solid rgba(255, 248, 231, 0.38);
+  border-radius: 0.18rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 42%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 240, 166, 0.18) 0,
+      rgba(255, 240, 166, 0.18) 0.18rem,
+      transparent 0.18rem,
+      transparent 0.36rem
+    ),
+    #173e31;
+  box-shadow: 0 0.35rem 0.9rem rgba(0, 0, 0, 0.28);
+}
+
+.player-card-stack span:first-child {
+  margin-left: 0;
+}
+
+.table-player.active {
+  border-color: rgba(255, 240, 166, 0.88);
+  background: rgba(212, 175, 55, 0.18);
+  box-shadow:
+    0 0 0 0.18rem rgba(212, 175, 55, 0.11),
+    0 0.8rem 2rem rgba(0, 0, 0, 0.24);
+}
+
+.table-player.me {
+  outline: 2px solid rgba(255, 248, 231, 0.28);
+}
+
+.table-player.disconnected {
+  opacity: 0.48;
+}
+
+.bottom-seat {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.top-seat {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.left-seat {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.right-seat {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 520px) {
+  .table-board {
+    min-height: 43rem;
+    padding: 0.75rem;
+  }
+
+  .center-felt {
+    width: 100%;
+    margin: 8rem 0 9.2rem;
+  }
+
+  .table-player {
+    width: min(8rem, calc(50% - 0.8rem));
+    padding: 0.38rem 0.44rem 0.42rem;
+  }
+
+  .left-seat {
+    top: 6.4rem;
+    left: 0;
+    transform: none;
+  }
+
+  .right-seat {
+    top: 6.4rem;
+    right: 0;
+    transform: none;
+  }
+
+  .top-seat {
+    top: 0;
+  }
+
+  .bottom-seat {
+    bottom: 0;
+  }
+}
+
+.playing-card.not-legal {
+  filter: grayscale(0.75);
+  opacity: 0.42;
+  transform: scale(0.96);
+}
+
+.playing-card.not-legal:hover {
+  transform: scale(0.96);
+}
+
+.playing-card.selectable:hover {
+  transform: translateY(-0.7rem);
+}
+
+.room-code-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.table-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.table-card.nearly-full {
+  border-color: rgba(255, 240, 166, 0.5);
+  background: rgba(212, 175, 55, 0.12);
+}
+
+.table-count {
+  display: grid;
+  justify-items: end;
+  gap: 0.15rem;
+  font-weight: 900;
+}
+
+.table-count small {
+  color: #fff0a6;
+  font-size: 0.68rem;
+}
+
+.status-message {
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff0a6;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.86rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.ghost-button {
+  border: 1px solid rgba(246, 240, 223, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: rgba(246, 240, 223, 0.82);
+  padding: 0.9rem 1.1rem;
+  font-weight: 900;
+}

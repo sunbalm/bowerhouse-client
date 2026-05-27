@@ -1,0 +1,179 @@
+<div class="top-action-dock">
+  <button
+    *ngIf="showGameActions"
+    type="button"
+    class="top-icon-button"
+    aria-label="Table info"
+    title="Table info"
+    [class.active]="activePanel === 'info'"
+    (click)="panelToggled.emit('info')"
+  >
+    i
+  </button>
+
+  <button
+    *ngIf="showGameActions"
+    type="button"
+    class="top-icon-button"
+    aria-label="Reactions"
+    title="Reactions"
+    [class.active]="activePanel === 'reactions'"
+    (click)="panelToggled.emit('reactions')"
+  >
+    ✦
+  </button>
+
+  <button
+    *ngIf="showGameActions && lastCompletedTrick"
+    type="button"
+    class="top-icon-button"
+    aria-label="Last trick"
+    title="Last trick"
+    [class.active]="activePanel === 'last-trick'"
+    (click)="panelToggled.emit('last-trick')"
+  >
+    ↶
+  </button>
+
+  <button
+    *ngIf="showGameActions && showTableLog && game?.activityLog?.length"
+    type="button"
+    class="top-icon-button"
+    aria-label="Game log"
+    title="Game log"
+    [class.active]="activePanel === 'log'"
+    (click)="panelToggled.emit('log')"
+  >
+    ☰
+  </button>
+
+  <button
+    type="button"
+    class="top-icon-button"
+    aria-label="Settings"
+    title="Settings"
+    (click)="settingsOpened.emit()"
+  >
+    ⚙
+  </button>
+</div>
+
+<section *ngIf="room && game && activePanel === 'info'" class="top-popover">
+  <div class="top-popover-header">
+    <p class="eyebrow">Table Info</p>
+    <button type="button" class="icon-button" aria-label="Close info" (click)="panelClosed.emit()">
+      &times;
+    </button>
+  </div>
+
+  <div class="info-list">
+    <div>
+      <span>You</span>
+      <strong>{{ mySeatLabel }}</strong>
+    </div>
+
+    <div>
+      <span>Table</span>
+      <strong>{{ room.tableName }}</strong>
+    </div>
+
+    <div>
+      <span>Code</span>
+      <button type="button" class="inline-copy-button" (click)="roomCodeCopied.emit()">
+        {{ room.id }}
+      </button>
+    </div>
+
+    <div>
+      <span>Rules</span>
+      <strong>{{ ruleSummary() }}</strong>
+    </div>
+  </div>
+
+  <div class="popover-actions">
+    <button type="button" class="secondary-button" (click)="inviteCopied.emit()">Invite</button>
+    <button type="button" class="ghost-button" (click)="rulesOpened.emit()">Rules</button>
+  </div>
+</section>
+
+<section *ngIf="room && game && activePanel === 'reactions'" class="top-popover reaction-popover">
+  <div class="top-popover-header">
+    <p class="eyebrow">Reactions</p>
+    <button
+      type="button"
+      class="icon-button"
+      aria-label="Close reactions"
+      (click)="panelClosed.emit()"
+    >
+      &times;
+    </button>
+  </div>
+
+  <div class="reaction-row">
+    <button
+      type="button"
+      class="reaction-button"
+      *ngFor="let reaction of reactions"
+      (click)="reactionSent.emit(reaction)"
+    >
+      {{ reaction }}
+    </button>
+  </div>
+</section>
+
+<section
+  *ngIf="room && game && activePanel === 'last-trick' && lastCompletedTrick"
+  class="top-popover"
+>
+  <ng-container *ngIf="lastCompletedTrick as trick">
+    <div class="top-popover-header">
+      <p class="eyebrow">Last Trick</p>
+      <button
+        type="button"
+        class="icon-button"
+        aria-label="Close last trick"
+        (click)="panelClosed.emit()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <p class="popover-summary">
+      {{ playerNameForSeat(trick.winnerSeat) }} won
+      <span *ngIf="game.mode === 'four-player'">
+        for {{ resultSideLabel(trick.winningTeam) }}
+      </span>
+    </p>
+
+    <div class="compact-trick-list">
+      <div
+        class="compact-trick-play"
+        *ngFor="let play of trick.plays"
+        [class.winning-play]="play.seat === trick.winnerSeat"
+      >
+        <span>{{ playerNameForSeat(play.seat) }}</span>
+        <div
+          class="playing-card mini"
+          [class.red]="play.card.suit === 'hearts' || play.card.suit === 'diamonds'"
+        >
+          <app-card-face [card]="play.card"></app-card-face>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</section>
+
+<section *ngIf="room && game && activePanel === 'log'" class="top-popover log-popover">
+  <div class="top-popover-header">
+    <p class="eyebrow">Log</p>
+    <button type="button" class="icon-button" aria-label="Close log" (click)="panelClosed.emit()">
+      &times;
+    </button>
+  </div>
+
+  <div class="activity-items">
+    <div *ngFor="let item of game.activityLog" class="activity-item">
+      {{ displaySeatMessage(item.message) }}
+    </div>
+  </div>
+</section>

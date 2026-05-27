@@ -1,0 +1,207 @@
+app-root {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+.app-shell {
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+.floating-emoji {
+  bottom: calc(5.25rem + env(safe-area-inset-bottom));
+}
+
+.toast-message {
+  bottom: calc(1.25rem + env(safe-area-inset-bottom));
+}
+
+.ios-install-hint {
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: 1rem;
+  background: rgba(212, 175, 55, 0.08);
+  padding: 0.8rem;
+}
+
+.ios-install-hint strong {
+  color: #fff0a6;
+}
+
+.ios-install-hint span {
+  color: rgba(246, 240, 223, 0.68);
+  font-size: 0.82rem;
+}
+
+.game-over-panel {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(255, 240, 166, 0.42);
+  background:
+    radial-gradient(circle at top, rgba(255, 240, 166, 0.18), transparent 18rem),
+    linear-gradient(145deg, rgba(212, 175, 55, 0.18), rgba(255, 255, 255, 0.04)),
+    rgba(6, 28, 20, 0.94);
+}
+
+.game-over-panel::before {
+  content: '';
+  position: absolute;
+  inset: -4rem;
+  background: radial-gradient(circle, rgba(255, 240, 166, 0.16) 0 0.12rem, transparent 0.13rem);
+  background-size: 1.8rem 1.8rem;
+  opacity: 0.35;
+  animation: winnerSparkle 8s linear infinite;
+  pointer-events: none;
+}
+
+.winner-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  border: 1px solid rgba(255, 240, 166, 0.32);
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.14);
+  color: #fff0a6;
+  padding: 0.4rem 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.game-over-panel h2,
+.game-over-panel p,
+.game-over-panel button {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes winnerSparkle {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(1.8rem);
+  }
+}
+
+.trick-winner-banner {
+  margin: 0.8rem 0;
+  border: 1px solid rgba(255, 240, 166, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 240, 166, 0.1);
+  color: #fff0a6;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-align: center;
+  animation: trickBannerIn 0.18s ease;
+}
+
+@keyframes trickBannerIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.player-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.3rem;
+}
+
+.player-badges span {
+  border: 1px solid rgba(255, 240, 166, 0.18);
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.12);
+  color: #fff0a6;
+  padding: 0.14rem 0.38rem;
+  font-size: 0.58rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.trump-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 240, 166, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 240, 166, 0.1);
+  padding: 0.25rem 0.55rem;
+}
+
+.trump-badge.red {
+  color: #ffc0c7;
+  border-color: rgba(255, 120, 140, 0.24);
+  background: rgba(255, 120, 140, 0.1);
+}
+
+.table-player.active-turn {
+  border-color: rgba(255, 240, 166, 0.42);
+  box-shadow:
+    0 0 0 1px rgba(255, 240, 166, 0.12),
+    0 0 1.4rem rgba(255, 240, 166, 0.14);
+  background:
+    radial-gradient(circle at top, rgba(255, 240, 166, 0.1), transparent 8rem),
+    rgba(255, 255, 255, 0.06);
+}
+
+.table-player.active-turn .player-name {
+  color: #fff0a6;
+}
+
+.hand-panel.your-turn-hand {
+  border-color: rgba(255, 240, 166, 0.38);
+  box-shadow:
+    0 0 0 1px rgba(255, 240, 166, 0.1),
+    0 0 2rem rgba(255, 240, 166, 0.1),
+    0 1.2rem 4rem rgba(0, 0, 0, 0.28);
+}
+
+.playing-card.selectable,
+.two-player-slot.selectable {
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.14s ease,
+    border-color 0.14s ease;
+}
+
+.playing-card.selectable:hover,
+.two-player-slot.selectable:hover {
+  transform: translateY(-0.35rem);
+  box-shadow:
+    0 0.8rem 1.6rem rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 240, 166, 0.12);
+}
+
+.playing-card.selectable:active,
+.two-player-slot.selectable:active {
+  transform: translateY(-0.12rem) scale(0.98);
+}
+
+.trick-slot.latest-play .playing-card {
+  animation: trickPlayIn 0.18s ease;
+}
+
+@keyframes trickPlayIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem) scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

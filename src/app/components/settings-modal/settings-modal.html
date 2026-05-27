@@ -1,0 +1,30 @@
+<div *ngIf="open" class="modal-backdrop">
+  <section class="modal">
+    <div class="panel-heading">
+      <h2>Settings</h2>
+      <button type="button" class="icon-button" (click)="closed.emit()">&times;</button>
+    </div>
+
+    <button type="button" class="secondary-button full" (click)="hapticsToggled.emit()">
+      Haptics: {{ hapticsEnabled ? 'On' : 'Off' }}
+    </button>
+
+    <button type="button" class="secondary-button full" (click)="tableLogToggled.emit()">
+      Table Log: {{ showTableLog ? 'On' : 'Off' }}
+    </button>
+
+    <button
+      *ngIf="canInstall"
+      type="button"
+      class="primary-button full"
+      (click)="installRequested.emit()"
+    >
+      Install BowerHouse
+    </button>
+
+    <div *ngIf="showIosInstallHint" class="ios-install-hint">
+      <strong>Install on iPhone</strong>
+      <span>Tap Share, then Add to Home Screen.</span>
+    </div>
+  </section>
+</div>

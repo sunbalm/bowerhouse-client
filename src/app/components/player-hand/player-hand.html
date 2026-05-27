@@ -1,0 +1,31 @@
+<article class="hand-panel" [class.your-turn-hand]="isMyTurn">
+  <div class="hand-heading">
+    <p class="eyebrow">Your Hand</p>
+  </div>
+
+  <div class="hand">
+    <button
+      type="button"
+      class="playing-card"
+      *ngFor="let card of sortedHand"
+      [class.red]="card.suit === 'hearts' || card.suit === 'diamonds'"
+      [class.selectable]="
+        (currentGame.phase === 'dealer-discard' && isMyTurn) ||
+        (canPlayCard && isLegalClientCard(card)) ||
+        (canTwoPlayerPlayCard && isLegalTwoPlayerClientCard(card))
+      "
+      [class.not-legal]="
+        (canPlayCard && !isLegalClientCard(card)) ||
+        (canTwoPlayerPlayCard && !isLegalTwoPlayerClientCard(card))
+      "
+      [disabled]="
+        actionPending ||
+        (canPlayCard && !isLegalClientCard(card)) ||
+        (canTwoPlayerPlayCard && !isLegalTwoPlayerClientCard(card))
+      "
+      (click)="playCard(card)"
+    >
+      <app-card-face [card]="card"></app-card-face>
+    </button>
+  </div>
+</article>

@@ -1,0 +1,90 @@
+<div *ngIf="open" class="modal-backdrop">
+  <section class="modal">
+    <div class="panel-heading">
+      <h2>Create Game</h2>
+      <button type="button" class="icon-button" (click)="closed.emit()">&times;</button>
+    </div>
+
+    <label for="gameMode">Game mode</label>
+    <select id="gameMode" [value]="selectedMode" (change)="updateMode($any($event.target).value)">
+      <option value="four-player">4 Player Euchre</option>
+      <option value="two-player">2 Player Euchre</option>
+    </select>
+
+    <label for="tableName">Table name</label>
+    <input
+      id="tableName"
+      type="text"
+      maxlength="32"
+      placeholder="BowerHouse Table"
+      [value]="tableName"
+      (input)="tableNameChange.emit($any($event.target).value)"
+    />
+
+    <label for="privatePassword">Password optional</label>
+    <input
+      id="privatePassword"
+      type="password"
+      maxlength="32"
+      placeholder="Leave empty for public"
+      [value]="privatePassword"
+      (input)="privatePasswordChange.emit($any($event.target).value)"
+    />
+
+    <p class="privacy-preview">
+      {{ privacyLabel }}
+    </p>
+
+    <p class="field-help">
+      Public tables appear in the lobby. Private tables require this password.
+    </p>
+
+    <label for="timerSeconds">Turn timer seconds</label>
+    <input
+      id="timerSeconds"
+      type="number"
+      min="10"
+      max="90"
+      [value]="timerSeconds"
+      (input)="timerSecondsChange.emit(+$any($event.target).value)"
+      (blur)="timerBlurred.emit()"
+    />
+
+    <div class="rule-toggle-list">
+      <label class="rule-toggle">
+        <input
+          type="checkbox"
+          [checked]="stickTheDealer"
+          (change)="stickTheDealerChange.emit($any($event.target).checked)"
+        />
+
+        <span>
+          <strong>Stick the Dealer</strong>
+          <small>Dealer must name trump if everyone passes.</small>
+        </span>
+      </label>
+
+      <label *ngIf="selectedMode === 'four-player'" class="rule-toggle">
+        <input
+          type="checkbox"
+          [checked]="canadianLoner"
+          (change)="canadianLonerChange.emit($any($event.target).checked)"
+        />
+
+        <span>
+          <strong>Canadian Loner</strong>
+          <small>If dealer's partner orders up, partner plays alone.</small>
+        </span>
+      </label>
+    </div>
+
+    <button
+      type="button"
+      class="primary-button full"
+      [disabled]="!formReady"
+      (click)="createRequested.emit()"
+    >
+      Create Table
+    </button>
+  </section>
+</div>

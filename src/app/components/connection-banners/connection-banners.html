@@ -1,0 +1,7 @@
+<div *ngIf="reconnectAttempting" class="connection-banner warning">
+  Reconnecting to BowerHouse...
+</div>
+
+<div *ngIf="!isSocketConnected && !reconnectAttempting" class="connection-banner danger">
+  Connection lost. Attempting to reconnect...
+</div>

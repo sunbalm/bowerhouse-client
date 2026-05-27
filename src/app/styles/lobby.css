@@ -1,0 +1,160 @@
+.table-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.07);
+  color: #f6f0df;
+  padding: 0.9rem;
+  text-align: left;
+}
+
+.table-card strong,
+.table-card small {
+  display: block;
+}
+
+.table-card small {
+  margin-top: 0.25rem;
+  color: rgba(246, 240, 223, 0.58);
+}
+
+.room-view {
+  display: grid;
+  gap: 1rem;
+}
+
+.room-meta {
+  color: rgba(246, 240, 223, 0.64);
+}
+
+.seats {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.seat {
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.18);
+  padding: 0.9rem;
+}
+
+.seat strong,
+.seat small {
+  display: block;
+}
+
+.seat small {
+  color: rgba(246, 240, 223, 0.6);
+}
+
+.seat-number {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #d4af37;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.seat.disconnected {
+  opacity: 0.55;
+}
+
+.seat.empty {
+  border-style: dashed;
+  opacity: 0.62;
+}
+
+.toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 20;
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.toast.error {
+  background: #ffe1e1;
+  color: #651313;
+}
+
+.toast.success {
+  background: #e8ffd9;
+  color: #163f13;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: end center;
+  background: rgba(0, 0, 0, 0.58);
+  padding: 1rem;
+}
+
+.modal {
+  display: grid;
+  gap: 0.75rem;
+  width: min(100%, 32rem);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: 1.5rem;
+  background: #0b1c15;
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.48);
+  padding: 1rem;
+}
+
+@media (min-width: 760px) {
+  .app-shell {
+    padding: 2rem;
+  }
+
+  .home-grid {
+    grid-template-columns: 0.8fr 1.2fr;
+    align-items: start;
+  }
+
+  .panel {
+    padding: 1.25rem;
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-backdrop {
+    place-items: center;
+  }
+
+  .toast {
+    right: 2rem;
+    left: auto;
+    min-width: 18rem;
+  }
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.helper-text {
+  margin: 1rem 0 0;
+  color: rgba(246, 240, 223, 0.62);
+  text-align: center;
+}
+
+.seat.me {
+  border-color: rgba(212, 175, 55, 0.72);
+  background: rgba(212, 175, 55, 0.12);
+}

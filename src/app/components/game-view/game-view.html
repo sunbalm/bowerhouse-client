@@ -1,0 +1,114 @@
+<section class="game-view">
+  <div class="game-hud" aria-label="Game summary">
+    <div class="game-hud-stat">
+      <span>Trump</span>
+      <strong
+        class="trump-badge"
+        [class.red]="currentGame.trumpSuit === 'hearts' || currentGame.trumpSuit === 'diamonds'"
+      >
+        {{ trumpLabel }}
+      </strong>
+    </div>
+
+    <div class="game-hud-stat">
+      <span>Maker</span>
+      <strong>{{ makerLabel }}</strong>
+    </div>
+  </div>
+
+  <article
+    *ngIf="currentGame.phase === 'hand-complete' || currentGame.phase === 'game-over'"
+    class="result-panel"
+    [class.game-over-panel]="currentGame.phase === 'game-over'"
+  >
+    <ng-container *ngIf="currentGame.lastHandResult as result">
+      <div class="result-hero">
+        <p class="eyebrow">Hand Complete</p>
+        <h2>{{ resultHeadline(result) }}</h2>
+        <p>{{ resultSummary(result) }}</p>
+      </div>
+
+      <div class="result-metrics" aria-label="Hand result details">
+        <div class="result-metric points-awarded">
+          <span>Points</span>
+          <strong>+{{ result.pointsAwarded }}</strong>
+        </div>
+
+        <div class="result-metric">
+          <span>Maker</span>
+          <strong>{{ playerNameForSeat(result.makerSeat) }}</strong>
+        </div>
+
+        <div class="result-metric">
+          <span>Maker Tricks</span>
+          <strong>{{ resultTrickCount(result) }}</strong>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="result-scoreboard">
+      <app-score-panel [items]="scoreItems"></app-score-panel>
+    </div>
+
+    <ng-container *ngIf="currentGame.phase === 'game-over'">
+      <div class="game-over-summary">
+        <div class="winner-badge">Winner</div>
+        <h2>{{ resultSideLabel(currentGame.winningTeam!) }} wins the game.</h2>
+      </div>
+
+      <button
+        *ngIf="isHost"
+        type="button"
+        class="secondary-button full"
+        [disabled]="actionPending"
+        (click)="rematchRequested.emit()"
+      >
+        Start Rematch
+      </button>
+
+      <p *ngIf="!isHost" class="helper-text">
+        Waiting for the host to start a rematch or leave the table.
+      </p>
+
+      <p class="room-meta">Rules: {{ ruleSummary() }}</p>
+
+      <button type="button" class="primary-button full" (click)="homeReturned.emit()">
+        Return Home
+      </button>
+    </ng-container>
+
+    <p *ngIf="currentGame.phase === 'hand-complete'" class="helper-text">
+      Next hand starts in {{ nextHandSecondsRemaining }}s.
+    </p>
+  </article>
+
+  <app-game-table
+    [currentGame]="currentGame"
+    [currentRoom]="currentRoom"
+    [currentSession]="currentSession"
+    [actionPending]="actionPending"
+    [isMyTurn]="isMyTurn"
+    [isTwoPlayerDealerTurn]="isTwoPlayerDealerTurn"
+    [availableTrumpSuits]="availableTrumpSuits"
+    [canDealerPassNaming]="canDealerPassNaming"
+    [turnPercentRemaining]="turnPercentRemaining"
+    (twoPlayerTrumpNamed)="twoPlayerTrumpNamed.emit($event)"
+    (twoPlayerNamingPassed)="twoPlayerNamingPassed.emit()"
+    (orderedUp)="orderedUp.emit()"
+    (orderingPassed)="orderingPassed.emit()"
+    (trumpNamed)="trumpNamed.emit($event)"
+    (namingPassed)="namingPassed.emit()"
+    (twoPlayerTableCardPlayed)="twoPlayerTableCardPlayed.emit($event)"
+  >
+    <app-player-hand
+      tableHand
+      [currentGame]="currentGame"
+      [currentSession]="currentSession"
+      [isMyTurn]="isMyTurn"
+      [actionPending]="actionPending"
+      (dealerDiscarded)="dealerDiscarded.emit($event)"
+      (cardPlayed)="cardPlayed.emit($event)"
+      (twoPlayerHandCardPlayed)="twoPlayerHandCardPlayed.emit($event)"
+    ></app-player-hand>
+  </app-game-table>
+</section>

@@ -1,0 +1,13 @@
+<span class="card-face">
+  <span class="card-corner card-corner-top">
+    <strong class="card-rank">{{ card?.rank || '--' }}</strong>
+    <span class="card-suit">{{ suitSymbol(card?.suit) }}</span>
+  </span>
+
+  <span class="card-center-suit">{{ suitSymbol(card?.suit) }}</span>
+
+  <span class="card-corner card-corner-bottom">
+    <strong class="card-rank">{{ card?.rank || '--' }}</strong>
+    <span class="card-suit">{{ suitSymbol(card?.suit) }}</span>
+  </span>
+</span>

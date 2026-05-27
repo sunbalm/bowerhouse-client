@@ -1,0 +1,300 @@
+<article class="game-table">
+  <div *ngIf="currentGame.activeSeat !== null" class="timer-bar" aria-label="Turn timer">
+    <div class="timer-fill" [style.width.%]="turnPercentRemaining"></div>
+  </div>
+
+  <section class="table-board">
+    <div
+      class="table-player"
+      *ngFor="let player of visibleTablePlayers"
+      [ngClass]="seatPositionClass(player.seat)"
+      [class.active]="currentGame.activeSeat === player.seat"
+      [class.me]="player.seat === currentSession?.seat"
+      [class.disconnected]="!player.connected"
+      [class.sitting-out]="player.seat === currentGame.sittingOutSeat"
+      [class.active-turn]="player.seat === currentGame.activeSeat"
+    >
+      <strong class="player-name">{{ player.name }}</strong>
+      <small *ngIf="player.seat === currentSession?.seat">You</small>
+
+      <div class="player-badges">
+        <span *ngIf="player.seat === currentGame.dealerSeat">Dealer</span>
+        <span *ngIf="player.seat === currentGame.makerSeat">Maker</span>
+        <span *ngIf="player.seat === currentGame.alonePlayerSeat">Alone</span>
+        <span *ngIf="player.seat === currentGame.sittingOutSeat">Sitting Out</span>
+      </div>
+
+      <div class="player-card-stack" aria-hidden="true">
+        <span *ngFor="let card of cardBacks(player.seat)"></span>
+      </div>
+    </div>
+
+    <ng-container *ngIf="currentGame.trumpSuit">
+      <div
+        class="played-card-slot"
+        *ngFor="let play of currentGame.currentTrick"
+        [ngClass]="seatPositionClass(play.seat)"
+      >
+        <span>{{ playerNameForSeat(play.seat) }}</span>
+        <div
+          class="playing-card mini"
+          [class.red]="play.card.suit === 'hearts' || play.card.suit === 'diamonds'"
+        >
+          <app-card-face [card]="play.card"></app-card-face>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="local-hand-slot">
+      <ng-content select="[tableHand]"></ng-content>
+    </div>
+
+    <div class="center-felt">
+      <div *ngIf="currentGame.mode === 'two-player'" class="two-player-board">
+        <div
+          class="two-player-side"
+          *ngFor="let player of twoPlayerBoardPlayers"
+          [class.local-two-player-side]="player.seat === currentSession?.seat"
+          [class.opponent-two-player-side]="player.seat !== currentSession?.seat"
+        >
+          <div class="two-player-side-heading">
+            <strong>{{ player.name }}</strong>
+            <span>{{
+              player.seat === currentSession?.seat ? 'You' : 'Seat ' + (player.seat + 1)
+            }}</span>
+          </div>
+
+          <div class="two-player-slots">
+            <button
+              type="button"
+              class="two-player-slot"
+              *ngFor="let slot of twoPlayerTableSlots(player.seat); let slotIndex = index"
+              [class.selectable]="
+                canTwoPlayerPlayCard &&
+                player.seat === currentSession?.seat &&
+                slot.faceUp &&
+                isLegalTwoPlayerClientCard(slot.faceUp)
+              "
+              [class.not-legal]="
+                canTwoPlayerPlayCard &&
+                player.seat === currentSession?.seat &&
+                slot.faceUp &&
+                !isLegalTwoPlayerClientCard(slot.faceUp)
+              "
+              [disabled]="
+                actionPending ||
+                !canTwoPlayerPlayCard ||
+                player.seat !== currentSession?.seat ||
+                !slot.faceUp ||
+                !isLegalTwoPlayerClientCard(slot.faceUp)
+              "
+              (click)="playTableCard(slot.faceUp, slotIndex)"
+            >
+              <div
+                class="playing-card mini"
+                *ngIf="slot.faceUp"
+                [class.red]="slot.faceUp.suit === 'hearts' || slot.faceUp.suit === 'diamonds'"
+              >
+                <app-card-face [card]="slot.faceUp"></app-card-face>
+              </div>
+
+              <div
+                *ngIf="slot.hasFaceDown"
+                class="face-down-card"
+                aria-label="Face-down card"
+              ></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="
+          !currentGame.trumpSuit ||
+          currentGame.phase === 'dealer-discard' ||
+          currentGame.phase === 'two-player-naming-trump'
+        "
+        class="up-card-zone"
+      >
+        <ng-container *ngIf="!currentGame.trumpSuit && currentGame.upCard">
+          <p>{{ isUpCardTurnedDown ? 'Turned Down' : 'Up Card' }}</p>
+
+          <div
+            *ngIf="isUpCardTurnedDown; else upCardFace"
+            class="playing-card mini card-back turned-down-card"
+            aria-label="Turned down up card"
+          ></div>
+
+          <ng-template #upCardFace>
+            <div
+              class="playing-card mini"
+              [class.red]="
+                currentGame.upCard.suit === 'hearts' || currentGame.upCard.suit === 'diamonds'
+              "
+            >
+              <app-card-face [card]="currentGame.upCard"></app-card-face>
+            </div>
+          </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="!currentGame.trumpSuit && !currentGame.upCard && isUpCardTurnedDown">
+          <p>Turned Down</p>
+          <div
+            class="playing-card mini card-back turned-down-card"
+            aria-label="Turned down up card"
+          ></div>
+        </ng-container>
+
+        <div
+          *ngIf="
+            currentGame.mode === 'two-player' && currentGame.phase === 'two-player-naming-trump'
+          "
+          class="decision-panel"
+        >
+          <p *ngIf="isMyTurn && !isTwoPlayerDealerTurn">Name trump or pass.</p>
+
+          <p *ngIf="isMyTurn && isTwoPlayerDealerTurn">Dealer must name trump.</p>
+
+          <p *ngIf="!isMyTurn">
+            Waiting for {{ playerNameForSeat(currentGame.activeSeat) }} to choose trump.
+          </p>
+
+          <div *ngIf="isMyTurn" class="suit-actions">
+            <button
+              type="button"
+              class="suit-button"
+              *ngFor="let suit of suits"
+              [disabled]="actionPending"
+              [class.red]="suit === 'hearts' || suit === 'diamonds'"
+              (click)="twoPlayerTrumpNamed.emit(suit)"
+            >
+              {{ suitSymbol(suit) }}
+            </button>
+          </div>
+
+          <button
+            *ngIf="isMyTurn && !isTwoPlayerDealerTurn"
+            type="button"
+            class="secondary-button full"
+            [disabled]="actionPending"
+            (click)="twoPlayerNamingPassed.emit()"
+          >
+            Pass
+          </button>
+        </div>
+
+        <div *ngIf="currentGame.phase === 'ordering-up'" class="decision-panel">
+          <p *ngIf="isMyTurn">Order up {{ suitSymbol(currentGame.upCard?.suit || '') }} or pass?</p>
+
+          <p *ngIf="!isMyTurn">
+            Waiting for {{ playerNameForSeat(currentGame.activeSeat) }} to decide.
+          </p>
+
+          <div *ngIf="isMyTurn" class="decision-actions">
+            <button
+              type="button"
+              class="primary-button"
+              [disabled]="actionPending"
+              (click)="orderedUp.emit()"
+            >
+              Order Up
+            </button>
+
+            <button
+              type="button"
+              class="secondary-button"
+              [disabled]="actionPending"
+              (click)="orderingPassed.emit()"
+            >
+              Pass
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="currentGame.phase === 'dealer-discard'" class="decision-panel">
+          <p *ngIf="isMyTurn">Dealer picked up the up card. Choose one card to discard.</p>
+
+          <p *ngIf="!isMyTurn">
+            Waiting for {{ playerNameForSeat(currentGame.dealerSeat) }} to discard.
+          </p>
+        </div>
+
+        <div *ngIf="currentGame.phase === 'naming-trump'" class="decision-panel">
+          <p *ngIf="isMyTurn && currentGame.activeSeat !== currentGame.dealerSeat">
+            Name trump or pass. You cannot choose {{ suitSymbol(currentGame.upCard?.suit || '') }}.
+          </p>
+
+          <p
+            *ngIf="
+              isMyTurn &&
+              currentGame.activeSeat === currentGame.dealerSeat &&
+              currentGame.rules.stickTheDealer
+            "
+          >
+            Dealer must name trump because Stick the Dealer is enabled. You cannot choose
+            {{ suitSymbol(currentGame.upCard!.suit) }}.
+          </p>
+
+          <p
+            *ngIf="
+              isMyTurn &&
+              currentGame.activeSeat === currentGame.dealerSeat &&
+              !currentGame.rules.stickTheDealer
+            "
+          >
+            Dealer may pass. If dealer passes, the hand is redealt.
+          </p>
+
+          <p *ngIf="!isMyTurn">
+            Waiting for {{ playerNameForSeat(currentGame.activeSeat) }} to name trump or pass.
+          </p>
+
+          <div *ngIf="isMyTurn" class="suit-actions">
+            <button
+              type="button"
+              class="suit-button"
+              *ngFor="let suit of availableTrumpSuits"
+              [disabled]="actionPending"
+              [class.red]="suit === 'hearts' || suit === 'diamonds'"
+              (click)="trumpNamed.emit(suit)"
+            >
+              {{ suitSymbol(suit) }}
+            </button>
+          </div>
+
+          <button
+            *ngIf="
+              isMyTurn && (currentGame.activeSeat !== currentGame.dealerSeat || canDealerPassNaming)
+            "
+            type="button"
+            class="secondary-button full"
+            [disabled]="actionPending"
+            (click)="namingPassed.emit()"
+          >
+            Pass
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="currentGame.trumpSuit" class="trick-zone">
+        <div class="empty-trick">
+          <span *ngIf="currentGame.phase === 'playing'">
+            <ng-container *ngIf="currentGame.currentTrick.length === 0; else trickInProgress">
+              Waiting for {{ playerNameForSeat(currentGame.activeSeat) }} to lead.
+            </ng-container>
+
+            <ng-template #trickInProgress>
+              Waiting for {{ playerNameForSeat(currentGame.activeSeat) }} to play.
+            </ng-template>
+          </span>
+
+          <span *ngIf="currentGame.phase === 'hand-complete'"> Hand complete. </span>
+
+          <span *ngIf="currentGame.phase !== 'playing' && currentGame.phase !== 'hand-complete'">
+            Waiting for play to begin.
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

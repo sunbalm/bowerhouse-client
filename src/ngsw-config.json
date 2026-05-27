@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "installMode": "prefetch",
+  "resources": {
+    "files": [
+      "/favicon.ico",
+      "/index.html",
+      "/offline.html",
+      "/*.css",
+      "/*.js"
+    ]
+  },
+  "assetGroups": {
+
+  "glob": "/offline.html",
+
+  "input": "src"
+
+},
+"navigationUrls": [
+  "/**",
+  "!/**/*.*",
+  "!/api/**"
+]
+}

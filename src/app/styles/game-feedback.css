@@ -1,0 +1,156 @@
+.toast-message {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  z-index: 50;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 240, 166, 0.22);
+  border-radius: 999px;
+  background: rgba(6, 28, 20, 0.96);
+  color: #fff0a6;
+  padding: 0.8rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 900;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+.toast-message.error-toast {
+  border-color: rgba(255, 114, 114, 0.3);
+  background: rgba(60, 12, 12, 0.96);
+  color: #ffc8c8;
+}
+
+.toast-message.auto-action-toast {
+  border-color: rgba(255, 240, 166, 0.28);
+  background: rgba(33, 70, 48, 0.96);
+  color: #fff0a6;
+}
+
+.player-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.turn-indicator {
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: rgba(255, 240, 166, 0.18);
+  color: #fff0a6;
+  padding: 0.18rem 0.45rem;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.score-progress {
+  height: 0.26rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+  margin-top: 0.3rem;
+}
+
+.score-progress div {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #d4af37, #fff0a6);
+  transition: width 0.25s ease;
+}
+
+.activity-items {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.activity-item {
+  border-radius: 0.8rem;
+  background: rgba(255, 255, 255, 0.045);
+  color: rgba(246, 240, 223, 0.72);
+  padding: 0.6rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.hand-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.hand-heading .eyebrow {
+  margin-bottom: 0;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(255, 240, 166, 0.75);
+  outline-offset: 3px;
+}
+
+.playing-card:focus-visible {
+  outline: 4px solid rgba(255, 240, 166, 0.9);
+  outline-offset: 4px;
+}
+
+@media (max-width: 520px) {
+  .hand {
+    gap: 0.45rem;
+    padding-bottom: 0.85rem;
+  }
+
+  .hand .playing-card {
+    width: 5.25rem;
+    height: 7.65rem;
+  }
+
+  .hand .playing-card .card-rank {
+    font-size: 1.1rem;
+  }
+
+  .hand .playing-card .card-suit {
+    font-size: 0.92rem;
+  }
+
+  .hand .playing-card .card-center-suit {
+    font-size: 2.75rem;
+  }
+
+  .local-hand-slot .hand {
+    padding: 0.1rem 0 0.25rem;
+  }
+
+  .local-hand-slot .hand .playing-card {
+    width: 3.8rem;
+    height: 5.55rem;
+  }
+
+  .local-hand-slot .hand .playing-card .card-rank {
+    font-size: 0.8rem;
+  }
+
+  .local-hand-slot .hand .playing-card .card-suit {
+    font-size: 0.7rem;
+  }
+
+  .local-hand-slot .hand .playing-card .card-center-suit {
+    font-size: 1.9rem;
+  }
+
+  .primary-button,
+  .secondary-button,
+  .ghost-button,
+  .small-button,
+  .danger-button,
+  .install-button {
+    min-height: 44px;
+  }
+
+  input {
+    min-height: 44px;
+  }
+}

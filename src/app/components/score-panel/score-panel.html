@@ -1,0 +1,10 @@
+<article class="score-panel">
+  <div *ngFor="let item of items">
+    <span>{{ item.label }}</span>
+    <strong>{{ item.score }}</strong>
+
+    <div class="score-progress">
+      <div [style.width.%]="scorePercent(item.score)"></div>
+    </div>
+  </div>
+</article>

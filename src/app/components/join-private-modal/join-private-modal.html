@@ -1,0 +1,40 @@
+<div *ngIf="open" class="modal-backdrop">
+  <section class="modal">
+    <div class="panel-heading">
+      <h2>Join Private Game</h2>
+      <button type="button" class="icon-button" (click)="closed.emit()">&times;</button>
+      <button type="button" class="ghost-button" (click)="rulesRequested.emit()">
+        How to Play
+      </button>
+    </div>
+
+    <label for="joinRoomCode">Room code</label>
+    <input
+      id="joinRoomCode"
+      type="text"
+      maxlength="6"
+      placeholder="ABC123"
+      [value]="joinRoomCode"
+      (input)="updateRoomCode($any($event.target).value)"
+    />
+
+    <label for="joinPassword">Password</label>
+    <input
+      id="joinPassword"
+      type="password"
+      maxlength="32"
+      placeholder="Private table password"
+      [value]="joinPassword"
+      (input)="joinPasswordChange.emit($any($event.target).value)"
+    />
+
+    <button
+      type="button"
+      class="primary-button full"
+      [disabled]="!formReady"
+      (click)="joinRequested.emit()"
+    >
+      Join Table
+    </button>
+  </section>
+</div>

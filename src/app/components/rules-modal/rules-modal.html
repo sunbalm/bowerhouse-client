@@ -1,0 +1,70 @@
+<div *ngIf="open" class="modal-backdrop">
+  <section class="modal rules-modal">
+    <div class="panel-heading">
+      <h2>How to Play</h2>
+      <button type="button" class="icon-button" (click)="closed.emit()">&times;</button>
+    </div>
+
+    <div class="rules-content">
+      <h3>4-Player Euchre</h3>
+
+      <p>
+        BowerHouse starts with classic 4-player euchre. Seats 1 and 3 are partners. Seats 2 and 4
+        are partners.
+      </p>
+
+      <h4>Trump</h4>
+      <p>
+        Players first decide whether to order up the visible up card. If everyone passes, players
+        may name any other suit as trump. The dealer must choose if everyone else passes.
+      </p>
+
+      <h4>Bowers</h4>
+      <p>
+        The right bower is the jack of trump. The left bower is the jack of the same color suit.
+        Both count as trump.
+      </p>
+
+      <h4>Playing</h4>
+      <p>
+        You must follow suit when possible. If you cannot follow suit, you may play any card.
+        Highest trump wins. If no trump is played, highest card of the led suit wins.
+      </p>
+
+      <h4>Scoring</h4>
+      <p>
+        The maker team needs at least 3 tricks. Making it scores 1 point. Taking all 5 tricks scores
+        2 points. Getting euchred gives the defending team 2 points. First team to 10 wins.
+      </p>
+
+      <h4>Timers</h4>
+      <p>
+        If a player runs out of time or disconnects, BowerHouse will auto-play for them so the game
+        can continue.
+      </p>
+
+      <h3>2-Player Euchre</h3>
+
+      <p>
+        Two-player euchre is head-to-head. Each player has 4 cards in hand, 4 face-up table cards,
+        and 4 face-down cards underneath those table cards.
+      </p>
+
+      <h4>Trump</h4>
+      <p>The non-dealer chooses trump first or passes. If they pass, the dealer must name trump.</p>
+
+      <h4>Playing Table Cards</h4>
+      <p>
+        You may play from your hand or from your own face-up table cards. When a face-up table card
+        is played, the face-down card underneath it is revealed.
+      </p>
+
+      <h4>Scoring</h4>
+      <p>
+        The maker needs at least 7 of the 12 tricks. Taking 7 or more tricks scores 1 point. Taking
+        all 12 tricks scores 2 points. If the maker gets fewer than 7 tricks, the defender scores 2
+        points. First to 10 wins.
+      </p>
+    </div>
+  </section>
+</div>

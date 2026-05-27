@@ -1,0 +1,31 @@
+<div *ngIf="errorMessage" class="toast-message error-toast">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="successMessage" class="toast-message">
+  {{ successMessage }}
+</div>
+
+<div
+  *ngIf="autoActionMessage && !errorMessage && !successMessage"
+  class="toast-message auto-action-toast"
+>
+  {{ autoActionMessage }}
+</div>
+
+<div *ngIf="connectionStatus === 'Disconnected'" class="offline-overlay">
+  <section class="offline-card">
+    <div class="offline-spinner"></div>
+
+    <h2>Reconnecting...</h2>
+
+    <p>BowerHouse is attempting to reconnect to the table automatically.</p>
+
+    <p class="offline-note">Auto-play will continue temporarily if your turn expires.</p>
+  </section>
+</div>
+
+<div *ngIf="latestReaction" class="reaction-toast">
+  <strong>{{ latestReaction.name }}</strong>
+  {{ latestReaction.message }}
+</div>

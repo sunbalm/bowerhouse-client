@@ -1,0 +1,60 @@
+<section class="home-grid">
+  <article class="panel name-panel">
+    <label for="playerName">Your name</label>
+    <input
+      id="playerName"
+      type="text"
+      maxlength="18"
+      placeholder="Enter display name"
+      [value]="playerName"
+      (input)="playerNameChange.emit($any($event.target).value)"
+    />
+
+    <div class="actions">
+      <button type="button" class="primary-button" (click)="createGameRequested.emit()">
+        Create Game
+      </button>
+
+      <button type="button" class="secondary-button" (click)="joinPrivateRequested.emit()">
+        Join Private Game
+      </button>
+    </div>
+  </article>
+
+  <article class="panel public-panel">
+    <div class="panel-heading">
+      <div>
+        <p class="eyebrow">Open Tables</p>
+        <h2>Public Games</h2>
+      </div>
+    </div>
+
+    <div *ngIf="publicRooms.length === 0" class="empty-state">
+      No public tables are open right now.
+    </div>
+
+    <div class="table-list">
+      <button
+        type="button"
+        class="table-card"
+        *ngFor="let room of publicRooms"
+        [disabled]="!hasPlayerName"
+        [class.nearly-full]="room.players === room.maxPlayers - 1"
+        (click)="publicRoomSelected.emit(room)"
+      >
+        <span>
+          <strong>{{ room.tableName }}</strong>
+          <span class="mode-badge" [class.two-player]="room.mode === 'two-player'">
+            {{ room.mode === 'two-player' ? '2P' : '4P' }}
+          </span>
+          <small>{{ room.id }}</small>
+        </span>
+
+        <span class="table-count">
+          {{ room.players }}/{{ room.maxPlayers }}
+          <small *ngIf="room.players === room.maxPlayers - 1">1 seat left</small>
+        </span>
+      </button>
+    </div>
+  </article>
+</section>
