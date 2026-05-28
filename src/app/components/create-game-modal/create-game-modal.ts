@@ -38,4 +38,14 @@ export class CreateGameModalComponent {
       this.canadianLonerChange.emit(false);
     }
   }
+
+  submit(event: Event) {
+    event.preventDefault();
+
+    if (!this.formReady) {
+      return;
+    }
+
+    this.createRequested.emit();
+  }
 }

@@ -8,7 +8,7 @@
     <button type="button" class="secondary-button" (click)="closed.emit()">Back</button>
   </div>
 
-  <form class="create-game-form" (ngSubmit)="createRequested.emit()">
+  <form class="create-game-form" (submit)="submit($event)">
     <label for="gameMode">Game mode</label>
     <select id="gameMode" [value]="selectedMode" (change)="updateMode($any($event.target).value)">
       <option value="four-player">4 Player Euchre</option>

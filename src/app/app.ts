@@ -744,8 +744,9 @@ export class App implements OnInit, OnDestroy {
     }
 
     this.setSession(result.session);
-    this.currentRoom = result.room;
     this.closeModals();
+    this.currentRoom = result.room;
+    this.currentGame = null;
     this.setSuccessMessage('Game created.');
     this.renderNow();
   }
