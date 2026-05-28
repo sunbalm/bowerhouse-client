@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  serverUrl: 'http://localhost:4000',
+  serverUrl: 'https://bowerhouse-server.onrender.com',
 };

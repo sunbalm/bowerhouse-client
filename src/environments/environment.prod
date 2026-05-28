@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverUrl: 'https://your-bowerhouse-server-url.com',
+  serverUrl: 'https://bowerhouse-server.onrender.com',
 };
