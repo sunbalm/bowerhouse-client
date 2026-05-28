@@ -71,6 +71,41 @@
   opacity: 0.62;
 }
 
+.create-game-page {
+  display: grid;
+  gap: 1rem;
+  width: min(100%, 38rem);
+  margin: 0 auto;
+  padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+}
+
+.create-page-heading {
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.create-page-heading h2 {
+  margin: 0;
+}
+
+.create-game-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.create-submit-bar {
+  position: sticky;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  z-index: 4;
+  margin-top: 0.25rem;
+  padding-top: 0.55rem;
+  background: linear-gradient(180deg, transparent, rgba(6, 28, 20, 0.94) 45%);
+}
+
+.create-submit-bar .primary-button {
+  box-shadow: 0 0.85rem 2rem rgba(0, 0, 0, 0.3);
+}
+
 .toast {
   position: fixed;
   right: 1rem;
@@ -134,6 +169,12 @@
 
   .modal-backdrop {
     place-items: center;
+  }
+
+  .create-submit-bar {
+    position: static;
+    padding-top: 0;
+    background: none;
   }
 
   .toast {

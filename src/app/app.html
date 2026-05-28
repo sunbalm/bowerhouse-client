@@ -21,13 +21,13 @@
   ></app-game-panels>
 
   <app-hero-header
-    *ngIf="!currentGame"
+    *ngIf="!currentGame && !showCreateGame"
     [canInstall]="canInstall"
     (installRequested)="installApp()"
   ></app-hero-header>
 
   <app-home-view
-    *ngIf="!currentRoom"
+    *ngIf="!currentRoom && !showCreateGame"
     [playerName]="playerName"
     [publicRooms]="publicRooms"
     (playerNameChange)="saveName($event)"
@@ -35,6 +35,22 @@
     (joinPrivateRequested)="openJoinPrivate()"
     (publicRoomSelected)="joinPublicRoom($event)"
   ></app-home-view>
+
+  <app-create-game-modal
+    *ngIf="!currentRoom && showCreateGame"
+    [open]="showCreateGame"
+    [(selectedMode)]="selectedMode"
+    [(tableName)]="tableName"
+    [(privatePassword)]="privatePassword"
+    [(timerSeconds)]="timerSeconds"
+    [(stickTheDealer)]="stickTheDealer"
+    [(canadianLoner)]="canadianLoner"
+    [privacyLabel]="createGamePrivacyLabel"
+    [formReady]="createFormReady"
+    (closed)="closeModals()"
+    (timerBlurred)="normalizeTimer()"
+    (createRequested)="createGame()"
+  ></app-create-game-modal>
 
   <app-room-lobby
     *ngIf="currentRoom && !currentGame"
@@ -95,21 +111,6 @@
     (tableLogToggled)="toggleTableLog()"
     (installRequested)="installApp()"
   ></app-settings-modal>
-
-  <app-create-game-modal
-    [open]="showCreateGame"
-    [(selectedMode)]="selectedMode"
-    [(tableName)]="tableName"
-    [(privatePassword)]="privatePassword"
-    [(timerSeconds)]="timerSeconds"
-    [(stickTheDealer)]="stickTheDealer"
-    [(canadianLoner)]="canadianLoner"
-    [privacyLabel]="createGamePrivacyLabel"
-    [formReady]="createFormReady"
-    (closed)="closeModals()"
-    (timerBlurred)="normalizeTimer()"
-    (createRequested)="createGame()"
-  ></app-create-game-modal>
 
   <app-join-private-modal
     [open]="showJoinPrivate"

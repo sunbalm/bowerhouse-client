@@ -1,10 +1,14 @@
-<div *ngIf="open" class="modal-backdrop">
-  <section class="modal">
-    <div class="panel-heading">
+<section *ngIf="open" class="panel create-game-page">
+  <div class="panel-heading create-page-heading">
+    <div>
+      <p class="eyebrow">New Table</p>
       <h2>Create Game</h2>
-      <button type="button" class="icon-button" (click)="closed.emit()">&times;</button>
     </div>
 
+    <button type="button" class="secondary-button" (click)="closed.emit()">Back</button>
+  </div>
+
+  <form class="create-game-form" (ngSubmit)="createRequested.emit()">
     <label for="gameMode">Game mode</label>
     <select id="gameMode" [value]="selectedMode" (change)="updateMode($any($event.target).value)">
       <option value="four-player">4 Player Euchre</option>
@@ -78,13 +82,10 @@
       </label>
     </div>
 
-    <button
-      type="button"
-      class="primary-button full"
-      [disabled]="!formReady"
-      (click)="createRequested.emit()"
-    >
-      Create Table
-    </button>
-  </section>
-</div>
+    <div class="create-submit-bar">
+      <button type="submit" class="primary-button full" [disabled]="!formReady">
+        Create Table
+      </button>
+    </div>
+  </form>
+</section>
